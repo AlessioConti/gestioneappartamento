@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import java.util.Date;
+
 import it.prova.gestioneappartamento.connection.MyConnection;
 import it.prova.gestioneappartamento.model.Appartamento;
 
@@ -47,7 +49,29 @@ public class AppartamentoDAO {
 			ps.setString(1, appartamentoInput.getQuartiere());
 			ps.setInt(2, appartamentoInput.getMetriQuadri());
 			ps.setInt(3, appartamentoInput.getPrezzo());
-			ps.setDate(4, appartamentoInput.getDataCostruzione());
+			ps.setDate(4, new java.sql.Date(appartamentoInput.getDataCostruzione().getTime()));
+			result = ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+		return result;
+	}
+
+	public int update(Appartamento appartamentoInput) {
+		if (appartamentoInput == null || appartamentoInput.getId() < 1)
+			throw new RuntimeException("Impossibile recuperare appartamento");
+
+		int result = 0;
+
+		try (Connection c = MyConnection.getConnection();
+				PreparedStatement ps = c.prepareStatement(
+						"update appartamento set quartiere=?, metriquadri=?, prezzo=?, datacostruzione=? where id=?;")) {
+			ps.setString(1, appartamentoInput.getQuartiere());
+			ps.setInt(2, appartamentoInput.getMetriQuadri());
+			ps.setInt(3, appartamentoInput.getPrezzo());
+			ps.setDate(4, new java.sql.Date(appartamentoInput.getDataCostruzione().getTime()));
+			ps.setLong(5, appartamentoInput.getId());
 			result = ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
