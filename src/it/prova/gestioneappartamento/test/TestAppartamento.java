@@ -1,5 +1,6 @@
 package it.prova.gestioneappartamento.test;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +19,10 @@ public class TestAppartamento {
 		testUpdateAppartamento(appartamentoDAOInstance);
 		
 		testDeleteAppartamento(appartamentoDAOInstance);
-		*/
+		
 		testFindById(appartamentoDAOInstance);
+		*/
+		testFindByExample(appartamentoDAOInstance);
 		
 	}
 	
@@ -61,6 +64,16 @@ public class TestAppartamento {
 			throw new RuntimeException("testFindById FALLITO: i nomi non corrispondono");
 		System.out.println("testFindById concluso.....");
 		
+	}
+	
+	public static void testFindByExample(AppartamentoDAO appartamentoDAOInstance) {
+		System.out.println("testFindByExample inizializzato....");
+		Appartamento appartamentoTemp = new Appartamento(6L, "Magliana", 100, 189000, new Date("2022/05/16"));
+		List<Appartamento> listaAppartamentiUtili = appartamentoDAOInstance.findByExample(appartamentoTemp);
+		for(Appartamento appartamentoInput : listaAppartamentiUtili)
+			System.out.println(appartamentoInput);
+		
+		System.out.println("testFindByExample concluso......");
 	}
 
 }

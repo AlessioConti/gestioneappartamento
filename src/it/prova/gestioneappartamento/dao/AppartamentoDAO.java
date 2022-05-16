@@ -126,7 +126,7 @@ public class AppartamentoDAO {
 		List<Appartamento> listaAppartamenti = new ArrayList<Appartamento>();
 		Appartamento appartamentoTemp = null;
 		
-		String query = "select * from appartamento a where 1=1";
+		String query = "select * from appartamento a where a.id>1";
 		
 		if(example.getQuartiere() != null)
 			query += " and a.quartiere = " +example.getQuartiere();
