@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import java.util.Date;
-
 import it.prova.gestioneappartamento.connection.MyConnection;
 import it.prova.gestioneappartamento.model.Appartamento;
 
@@ -74,6 +72,21 @@ public class AppartamentoDAO {
 			ps.setLong(5, appartamentoInput.getId());
 			result = ps.executeUpdate();
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+		return result;
+	}
+	
+	public int delete(Appartamento appartamentoInput) {
+		if (appartamentoInput == null || appartamentoInput.getId() < 1)
+			throw new RuntimeException("Impossibile recuperare appartamento");
+
+		int result = 0;
+		try(Connection c = MyConnection.getConnection(); PreparedStatement ps = c.prepareStatement("delete from appartamento where id=?;")){
+			ps.setLong(1, appartamentoInput.getId());
+			result = ps.executeUpdate();
+		}catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
