@@ -7,7 +7,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import it.prova.gestioneappartamento.connection.MyConnection;
 import it.prova.gestioneappartamento.model.Appartamento;
 
@@ -39,13 +38,15 @@ public class AppartamentoDAO {
 		}
 		return result;
 	}
-	
-	public List<Appartamento> list(){
+
+	public List<Appartamento> list() {
 		List<Appartamento> result = new ArrayList<Appartamento>();
 		Appartamento appartamentoTemp = null;
-		
-		try(Connection c = MyConnection.getConnection(); Statement s = c.createStatement(); ResultSet rs = s.executeQuery("select * from appartamento;")){
-			while(rs.next()) {
+
+		try (Connection c = MyConnection.getConnection();
+				Statement s = c.createStatement();
+				ResultSet rs = s.executeQuery("select * from appartamento;")) {
+			while (rs.next()) {
 				appartamentoTemp = new Appartamento();
 				appartamentoTemp.setId(rs.getLong("id"));
 				appartamentoTemp.setQuartiere(rs.getString("quartiere"));
@@ -102,66 +103,67 @@ public class AppartamentoDAO {
 		}
 		return result;
 	}
-	
+
 	public int delete(Appartamento appartamentoInput) {
 		if (appartamentoInput == null || appartamentoInput.getId() < 1)
 			throw new RuntimeException("Impossibile recuperare appartamento");
 
 		int result = 0;
-		try(Connection c = MyConnection.getConnection(); PreparedStatement ps = c.prepareStatement("delete from appartamento where id=?;")){
+		try (Connection c = MyConnection.getConnection();
+				PreparedStatement ps = c.prepareStatement("delete from appartamento where id=?;")) {
 			ps.setLong(1, appartamentoInput.getId());
 			result = ps.executeUpdate();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
 		return result;
 	}
-	
-	public List<Appartamento> findByExample (Appartamento example){
-		
-		if(example == null || example.getId() < 1)
+
+	public List<Appartamento> findByExample(Appartamento example) {
+
+		if (example == null || example.getId() < 1)
 			throw new RuntimeException("Impossibile recuperare appartamento");
-		
+
 		List<Appartamento> listaAppartamenti = new ArrayList<Appartamento>();
 		Appartamento appartamentoTemp = null;
-		
+
 		String query = "select * from appartamento a where a.id>1";
-		
-		if(example.getQuartiere() != null)
-			query += " and a.quartiere = '" +example.getQuartiere()+ "'";
-		if(example.getMetriQuadri() != 0)
-			query += " and a.metriquadri = " +example.getMetriQuadri();
-		if(example.getPrezzo() != 0)
-			query += " and a.prezzo = " +example.getPrezzo();
-		if(example.getDataCostruzione() != null)
-			query += " and a.datacostruzione = '" +example.getDataCostruzione()+ "'";
-			
+
+		if (example.getQuartiere() != null)
+			query += " and a.quartiere = '" + example.getQuartiere() + "'";
+		if (example.getMetriQuadri() != 0)
+			query += " and a.metriquadri = " + example.getMetriQuadri();
+		if (example.getPrezzo() != 0)
+			query += " and a.prezzo = " + example.getPrezzo();
+		if (example.getDataCostruzione() != null)
+			query += " and a.datacostruzione = '" + example.getDataCostruzione() + "'";
+
 		query += ";";
-		
-		try(Connection c = MyConnection.getConnection(); PreparedStatement ps = c.prepareStatement(query)){
-			
-			try(ResultSet rs = ps.executeQuery()){
-				while(rs.next()) {
+
+		try (Connection c = MyConnection.getConnection(); PreparedStatement ps = c.prepareStatement(query)) {
+
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
 					appartamentoTemp = new Appartamento();
 					appartamentoTemp.setId(rs.getLong("id"));
-					if(example.getQuartiere() != null)
+					if (example.getQuartiere() != null)
 						appartamentoTemp.setQuartiere(rs.getString("quartiere"));
-					if(example.getMetriQuadri() != 0)
+					if (example.getMetriQuadri() != 0)
 						appartamentoTemp.setMetriQuadri(rs.getInt("metriquadri"));
-					if(example.getPrezzo() != 0)
+					if (example.getPrezzo() != 0)
 						appartamentoTemp.setPrezzo(rs.getInt("prezzo"));
-					if(example.getDataCostruzione() != null)
+					if (example.getDataCostruzione() != null)
 						appartamentoTemp.setDataCostruzione(rs.getDate("datacostruzione"));
 					listaAppartamenti.add(appartamentoTemp);
 				}
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
 		return listaAppartamenti;
-		
+
 	}
 
 }
