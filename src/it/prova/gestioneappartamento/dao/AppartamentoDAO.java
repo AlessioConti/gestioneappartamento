@@ -8,32 +8,52 @@ import it.prova.gestioneappartamento.connection.MyConnection;
 import it.prova.gestioneappartamento.model.Appartamento;
 
 public class AppartamentoDAO {
-	
+
 	public Appartamento findByID(Long idInput) {
-		if(idInput == null || idInput < 1)
-			return null;
-		
+		if (idInput == null || idInput < 1)
+			throw new RuntimeException("Impossibile recuperare appartamento");
+
 		Appartamento result = null;
-		try(Connection c = MyConnection.getConnection(); PreparedStatement ps = c.prepareStatement("select * from appartamento a where a.id =?;")){
+		try (Connection c = MyConnection.getConnection();
+				PreparedStatement ps = c.prepareStatement("select * from appartamento a where a.id =?;")) {
 			ps.setLong(1, idInput);
-			try(ResultSet rs = ps.executeQuery()){
-				if(rs.next()) {
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
 					result = new Appartamento();
 					result.setQuartiere(rs.getString("quartiere"));
 					result.setMetriQuadri(rs.getInt("metriquadri"));
 					result.setPrezzo(rs.getInt("prezzo"));
 					result.setDataCostruzione(rs.getDate("datacostruzione"));
-				}else {
+				} else {
 					return null;
 				}
 			}
-			
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
 		return result;
 	}
-	
+
+	public int insert(Appartamento appartamentoInput) {
+		if (appartamentoInput == null || appartamentoInput.getId() < 1)
+			throw new RuntimeException("Impossibile recuperare appartamento");
+
+		int result = 0;
+		try (Connection c = MyConnection.getConnection();
+				PreparedStatement ps = c.prepareStatement(
+						"insert into appartamento(quartiere, metriquadri, prezzo, datacostruzione) values(?, ?, ?, ?);")) {
+			ps.setString(1, appartamentoInput.getQuartiere());
+			ps.setInt(2, appartamentoInput.getMetriQuadri());
+			ps.setInt(3, appartamentoInput.getPrezzo());
+			ps.setDate(4, appartamentoInput.getDataCostruzione());
+			result = ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+		return result;
+	}
+
 }

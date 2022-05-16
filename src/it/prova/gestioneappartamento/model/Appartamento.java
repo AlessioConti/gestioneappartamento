@@ -1,6 +1,6 @@
 package it.prova.gestioneappartamento.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Appartamento {
 	private Long id;
@@ -8,9 +8,10 @@ public class Appartamento {
 	private int metriQuadri;
 	private int prezzo;
 	private Date dataCostruzione;
-	
-	public Appartamento() {}
-	
+
+	public Appartamento() {
+	}
+
 	public Appartamento(String quartiere, int metriQuadri, int prezzo, Date dataCostruzione) {
 		super();
 		this.quartiere = quartiere;
@@ -18,7 +19,7 @@ public class Appartamento {
 		this.prezzo = prezzo;
 		this.dataCostruzione = dataCostruzione;
 	}
-	
+
 	public Appartamento(Long id, String quartiere, int metriQuadri, int prezzo, Date dataCostruzione) {
 		super();
 		this.id = id;
@@ -27,36 +28,45 @@ public class Appartamento {
 		this.prezzo = prezzo;
 		this.dataCostruzione = dataCostruzione;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getQuartiere() {
 		return quartiere;
 	}
+
 	public void setQuartiere(String quartiere) {
 		this.quartiere = quartiere;
 	}
+
 	public int getMetriQuadri() {
 		return metriQuadri;
 	}
+
 	public void setMetriQuadri(int metriQuadri) {
 		this.metriQuadri = metriQuadri;
 	}
+
 	public int getPrezzo() {
 		return prezzo;
 	}
+
 	public void setPrezzo(int prezzo) {
 		this.prezzo = prezzo;
 	}
+
 	public Date getDataCostruzione() {
 		return dataCostruzione;
 	}
+
 	public void setDataCostruzione(Date dataCostruzione) {
 		this.dataCostruzione = dataCostruzione;
 	}
-	
+
 }
