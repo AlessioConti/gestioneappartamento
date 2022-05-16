@@ -129,13 +129,13 @@ public class AppartamentoDAO {
 		String query = "select * from appartamento a where a.id>1";
 		
 		if(example.getQuartiere() != null)
-			query += " and a.quartiere = " +example.getQuartiere();
+			query += " and a.quartiere = '" +example.getQuartiere()+ "'";
 		if(example.getMetriQuadri() != 0)
 			query += " and a.metriquadri = " +example.getMetriQuadri();
 		if(example.getPrezzo() != 0)
 			query += " and a.prezzo = " +example.getPrezzo();
 		if(example.getDataCostruzione() != null)
-			query += " and a.datacostruzione = " +example.getDataCostruzione();
+			query += " and a.datacostruzione = '" +example.getDataCostruzione()+ "'";
 			
 		query += ";";
 		
