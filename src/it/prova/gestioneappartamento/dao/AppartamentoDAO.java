@@ -3,8 +3,10 @@ package it.prova.gestioneappartamento.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 
 import it.prova.gestioneappartamento.connection.MyConnection;
 import it.prova.gestioneappartamento.model.Appartamento;
@@ -34,6 +36,27 @@ public class AppartamentoDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException();
+		}
+		return result;
+	}
+	
+	public List<Appartamento> list(){
+		List<Appartamento> result = new ArrayList<Appartamento>();
+		Appartamento appartamentoTemp = null;
+		
+		try(Connection c = MyConnection.getConnection(); Statement s = c.createStatement(); ResultSet rs = s.executeQuery("select * from appartamento;")){
+			while(rs.next()) {
+				appartamentoTemp = new Appartamento();
+				appartamentoTemp.setId(rs.getLong("id"));
+				appartamentoTemp.setQuartiere(rs.getString("quartiere"));
+				appartamentoTemp.setMetriQuadri(rs.getInt("metriquadri"));
+				appartamentoTemp.setPrezzo(rs.getInt("prezzo"));
+				appartamentoTemp.setDataCostruzione(rs.getDate("datacostruzione"));
+				result.add(appartamentoTemp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return result;
 	}

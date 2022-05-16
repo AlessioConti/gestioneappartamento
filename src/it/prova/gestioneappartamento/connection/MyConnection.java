@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 public class MyConnection {
 
 	private static final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
-	private static final String CONNECT_STR = "jdbc:mysql://localhost:3306/gestionenegozio?user=root&password=ZefrAutism60&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
+	private static final String CONNECT_STR = "jdbc:mysql://localhost:3306/gestioneappartamento?user=root&password=ZefrAutism60&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
 
 	// per oracle XE (occhio che nelle insert servirebbero le sequence)
 	// private static final String DRIVER_NAME = "oracle.jdbc.driver.OracleDriver";
